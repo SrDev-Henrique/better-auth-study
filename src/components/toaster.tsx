@@ -1,11 +1,4 @@
-import {
-  CheckCircle2,
-  CircleAlertIcon,
-  CircleCheckIcon,
-  TriangleAlertIcon,
-  X,
-  XIcon,
-} from "lucide-react";
+import { CircleAlertIcon, CircleCheckIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
@@ -77,7 +70,7 @@ export default function Toast({
               <div className="flex gap-2">
                 {action && (
                   <Button size="sm" onClick={onClick}>
-                    {actionLabel}
+                    <Link href={href ?? ""}>{actionLabel}</Link>
                   </Button>
                 )}
                 <Button size="sm" onClick={onClick}>
