@@ -20,6 +20,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import Toast from "./toaster";
 import { useRouter } from "next/navigation";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -45,7 +46,7 @@ export default function SignInForm() {
             <Toast
               error={true}
               message="Erro ao entrar"
-              errorMessage={error?.error?.message ?? "Erro desconhecido"}
+              errorMessage={translateAuthError(error)}
               onClick={() => toast.dismiss(t)}
             />
           ));

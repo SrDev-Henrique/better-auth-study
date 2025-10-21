@@ -1,4 +1,11 @@
-import { CheckCircle2, TriangleAlertIcon, X } from "lucide-react";
+import {
+  CheckCircle2,
+  CircleAlertIcon,
+  CircleCheckIcon,
+  TriangleAlertIcon,
+  X,
+  XIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 
@@ -24,90 +31,73 @@ export default function Toast({
       {error ? (
         <div className="flex gap-2">
           <div className="flex grow gap-3">
-            <TriangleAlertIcon
-              className="text-destructive mt-0.5 shrink-0"
+            <CircleAlertIcon
+              className="mt-0.5 shrink-0 text-red-500"
               size={16}
               aria-hidden="true"
             />
-            <div className="flex grow justify-between gap-12">
-              <p className="text-sm">
-                {message}: {errorMessage}
-              </p>
-              <Button
-                variant="outline"
-                className="text-sm font-medium hover:underline"
-                onClick={onClick}
-              >
-                Fechar
-              </Button>
+            <div className="flex grow flex-col gap-3">
+              <div className="space-y-1">
+                <p className="text-sm font-medium">Erro:</p>
+                <p className="text-sm text-muted-foreground">{errorMessage}</p>
+              </div>
+              <div className="flex gap-2">
+                <Button size="sm" onClick={onClick}>
+                  Fechar
+                </Button>
+              </div>
             </div>
+            <Button
+              variant="ghost"
+              className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
+              aria-label="Fechar notificação"
+              onClick={onClick}
+            >
+              <XIcon
+                size={16}
+                className="opacity-60 transition-opacity group-hover:opacity-100"
+                aria-hidden="true"
+              />
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
-            onClick={onClick}
-            aria-label="Fechar banner"
-          >
-            <X
-              size={16}
-              className="opacity-60 transition-opacity group-hover:opacity-100"
-              aria-hidden="true"
-            />
-          </Button>
         </div>
       ) : (
         <div className="flex gap-2">
           <div className="flex grow gap-3">
-            <CheckCircle2
+            <CircleCheckIcon
               className="mt-0.5 shrink-0 text-emerald-500"
               size={16}
               aria-hidden="true"
             />
-            <div className="flex grow flex-col justify-between gap-2">
-              <p className="text-sm">{message}</p>
-              {action ? (
-                <div className="flex gap-2 text-sm">
-                  <Button
-                    variant="default"
-                    className="text-sm font-medium hover:underline"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={href ?? ""}>{actionLabel}</Link>
+            <div className="flex grow flex-col gap-3">
+              <div className="space-y-1">
+                <p className="text-sm font-medium">Sucesso:</p>
+                <p className="text-sm text-muted-foreground">{message}</p>
+              </div>
+              <div className="flex gap-2">
+                {action && (
+                  <Button size="sm" onClick={onClick}>
+                    {actionLabel}
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="text-sm font-medium hover:underline"
-                    size="sm"
-                    onClick={onClick}
-                  >
-                    Fechar
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  variant="outline"
-                  className="text-sm font-medium hover:underline"
-                  size="sm"
-                  onClick={onClick}
-                >
+                )}
+                <Button size="sm" onClick={onClick}>
                   Fechar
                 </Button>
-              )}
+              </div>
             </div>
+            <Button
+              variant="ghost"
+              className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
+              aria-label="Fechar notificação"
+              onClick={onClick}
+            >
+              <XIcon
+                size={16}
+                className="opacity-60 transition-opacity group-hover:opacity-100"
+                aria-hidden="true"
+              />
+            </Button>
           </div>
-          <Button
-            variant="ghost"
-            className="group -my-1.5 -me-2 size-8 shrink-0 p-0 hover:bg-transparent"
-            onClick={onClick}
-            aria-label="Fechar banner"
-          >
-            <X
-              size={16}
-              className="opacity-60 transition-opacity group-hover:opacity-100"
-              aria-hidden="true"
-            />
-          </Button>
         </div>
       )}
     </div>

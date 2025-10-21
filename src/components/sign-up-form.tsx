@@ -19,6 +19,7 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import Toast from "./toaster";
+import { translateAuthError } from "@/lib/auth-errors";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,30 +38,29 @@ export default function SignUpForm() {
   const isSubmitting = form.formState.isSubmitting;
 
   async function onSubmit(data: z.infer<typeof signUpFormSchema>) {
-    await authClient.signUp
-      .email(
-        { ...data },
-        {
-          onError: (error) => {
-            toast.custom((t) => (
-              <Toast
-                error={true}
-                message="Erro ao criar projeto"
-                errorMessage={error?.error?.message ?? "Erro desconhecido"}
-                onClick={() => toast.dismiss(t)}
-              />
-            ));
-          },
-        }
-      )
-      .then(() => {
-        toast.custom((t) => (
-          <Toast
-            message="Conta criada com sucesso"
-            onClick={() => toast.dismiss(t)}
-          />
-        ));
-      });
+    await authClient.signUp.email(
+      { ...data },
+      {
+        onError: (error) => {
+          toast.custom((t) => (
+            <Toast
+              error={true}
+              message="Erro ao criar conta"
+              errorMessage={translateAuthError(error)}
+              onClick={() => toast.dismiss(t)}
+            />
+          ));
+        },
+        onSuccess: () => {
+          toast.custom((t) => (
+            <Toast
+              message="Conta criada com sucesso"
+              onClick={() => toast.dismiss(t)}
+            />
+          ));
+        },
+      }
+    );
   }
 
   return (
