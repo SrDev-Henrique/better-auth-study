@@ -21,7 +21,11 @@ export default function Home() {
             Bem-vindo,{" "}
             <span className="text-foreground">{session.user?.name}</span>
           </h1>
-          <Button variant="destructive" onClick={() => authClient.signOut()}>
+          <Button
+            className="cursor-pointer"
+            variant="destructive"
+            onClick={() => authClient.signOut()}
+          >
             Sair
           </Button>
         </>

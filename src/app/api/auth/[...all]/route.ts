@@ -30,13 +30,13 @@ const botSettings = {
 const restrictiveRateLimitSettings = {
   mode: "LIVE",
   max: 10,
-  interval: "10min",
+  interval: "10m",
 } satisfies SlidingWindowRateLimitOptions<[]>;
 
 const laxRateLimitSettings = {
   mode: "LIVE",
   max: 60,
-  interval: "1min",
+  interval: "1m",
 } satisfies SlidingWindowRateLimitOptions<[]>;
 
 const emailSettings = {

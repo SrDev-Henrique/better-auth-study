@@ -7,15 +7,23 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+    },
+  },
   sessions: {
     cookieCache: {
-        enabled: true,
-        maxAge: 60 * 5,
-    }
+      enabled: true,
+      maxAge: 60 * 5,
+    },
   },
-  plugins: [
-    nextCookies()
-  ],
+  plugins: [nextCookies()],
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
