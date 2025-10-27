@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/style/noNonNullAssertion: <because> */
 import GithubIcon from "@/components/icons/github-icon";
 import GoogleIcon from "@/components/icons/google-icon";
 
@@ -7,13 +8,13 @@ export type SupportedOAuthProviders =
 
 export const SUPPORTED_OAUTH_PROVIDERS_DETAILS = [
   {
-    name: "Google",
+    name: "google",
     icon: GoogleIcon,
     clientId: process.env.GOOGLE_CLIENT_ID!,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
   },
   {
-    name: "GitHub",
+    name: "github",
     icon: GithubIcon,
     clientId: process.env.GITHUB_CLIENT_ID!,
     clientSecret: process.env.GITHUB_CLIENT_SECRET!,
