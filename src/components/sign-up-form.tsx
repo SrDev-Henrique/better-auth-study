@@ -71,7 +71,7 @@ export default function SignUpForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome</FormLabel>
+              <FormLabel>Nome completo</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>

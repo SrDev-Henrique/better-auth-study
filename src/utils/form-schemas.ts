@@ -15,9 +15,15 @@ export const signInFormSchema = z.object({
 
 export const signUpFormSchema = z
   .object({
-    name: z.string().min(1, {
-      message: "Nome é obrigatório",
-    }),
+    name: z
+      .string()
+      .min(1, {
+        message: "Nome é obrigatório",
+      })
+      .refine((data) => data.split(" ").length > 2, {
+        message: "Por favor, insira seu nome e sobrenome",
+        path: ["name"],
+      }),
     email: z
       .email({
         message: "Email inválido",

@@ -16,12 +16,16 @@ import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+type Tab = "signIn" | "signUp";
 
 export default function LoginPage() {
   const router = useRouter();
 
   const { data: session, isPending: loading } = authClient.useSession();
+
+  const [selectedTab, setSelectedTab] = useState<Tab>("signIn");
 
   useEffect(() => {
     if (!loading && session !== null) {
@@ -35,7 +39,10 @@ export default function LoginPage() {
         <Spinner />
       ) : (
         <div className="max-w-md w-full mx-auto">
-          <Tabs defaultValue="signIn">
+          <Tabs
+            value={selectedTab}
+            onValueChange={(value) => setSelectedTab(value as Tab)}
+          >
             <TabsList>
               <TabsTrigger value="signIn">Entrar</TabsTrigger>
               <TabsTrigger value="signUp">Criar conta</TabsTrigger>
