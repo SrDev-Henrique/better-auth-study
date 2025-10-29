@@ -1,6 +1,17 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeClosedIcon, EyeIcon, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
+import { authClient } from "@/lib/auth-client";
+import { translateAuthError } from "@/lib/auth-errors";
+import { signInFormSchema } from "@/utils/form-schemas";
+import Toast from "./toaster";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -10,19 +21,12 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { signInFormSchema } from "@/utils/form-schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
-import { EyeClosedIcon, EyeIcon, Loader2 } from "lucide-react";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
-import Toast from "./toaster";
-import { useRouter } from "next/navigation";
-import { translateAuthError } from "@/lib/auth-errors";
 
-export default function SignInForm() {
+export default function SignInForm({
+  openForgotPasswordTab,
+}: {
+  openForgotPasswordTab: () => void;
+}) {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
@@ -54,7 +58,7 @@ export default function SignInForm() {
         onSuccess: () => {
           router.push("/");
         },
-      }
+      },
     );
   }
 
@@ -79,7 +83,17 @@ export default function SignInForm() {
           name="password"
           render={({ field }) => (
             <FormItem className="relative">
-              <FormLabel>Senha</FormLabel>
+              <div className="flex justify-between items-baseline">
+                <FormLabel>Senha</FormLabel>
+                <Button
+                  type="button"
+                  variant="link"
+                  onClick={openForgotPasswordTab}
+                  className="text-xs"
+                >
+                  Esqueceu sua senha?
+                </Button>
+              </div>
               <FormControl>
                 <Input {...field} type={showPassword ? "text" : "password"} />
               </FormControl>

@@ -13,6 +13,16 @@ export const signInFormSchema = z.object({
   }),
 });
 
+export const forgotPasswordFormSchema = z.object({
+  email: z
+    .email({
+      message: "Email inválido",
+    })
+    .min(1, {
+      message: "Email é obrigatório",
+    }),
+});
+
 export const signUpFormSchema = z
   .object({
     name: z
@@ -20,7 +30,7 @@ export const signUpFormSchema = z
       .min(1, {
         message: "Nome é obrigatório",
       })
-      .refine((data) => data.split(" ").length > 2, {
+      .refine((data) => data.split(" ").length >= 2, {
         message: "Por favor, insira seu nome e sobrenome",
         path: ["name"],
       }),

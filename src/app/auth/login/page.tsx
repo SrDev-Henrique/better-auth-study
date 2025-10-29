@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import ForgotPasswordForm from "@/components/forgot-password";
 import SignInForm from "@/components/sign-in-form";
 import SignUpForm from "@/components/sign-up-form";
 import SocialButtons from "@/components/social-buttons";
@@ -15,10 +18,8 @@ import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
-type Tab = "signIn" | "signUp";
+type Tab = "signIn" | "signUp" | "forgot-password";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -43,10 +44,12 @@ export default function LoginPage() {
             value={selectedTab}
             onValueChange={(value) => setSelectedTab(value as Tab)}
           >
-            <TabsList>
-              <TabsTrigger value="signIn">Entrar</TabsTrigger>
-              <TabsTrigger value="signUp">Criar conta</TabsTrigger>
-            </TabsList>
+            {(selectedTab === "signIn" || selectedTab === "signUp") && (
+              <TabsList>
+                <TabsTrigger value="signIn">Entrar</TabsTrigger>
+                <TabsTrigger value="signUp">Criar conta</TabsTrigger>
+              </TabsList>
+            )}
             <TabsContent value="signIn">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -54,7 +57,11 @@ export default function LoginPage() {
                   <CardDescription>Faça login para continuar</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <SignInForm />
+                  <SignInForm
+                    openForgotPasswordTab={() =>
+                      setSelectedTab("forgot-password")
+                    }
+                  />
                 </CardContent>
                 <Separator />
                 <CardFooter className="flex flex-col gap-5">
@@ -77,6 +84,22 @@ export default function LoginPage() {
                   <Separator />
                   <SocialButtons />
                 </CardFooter>
+              </Card>
+            </TabsContent>
+            <TabsContent value="forgot-password">
+              <Card>
+                <CardHeader className="text-2xl font-bold">
+                  <CardTitle>Recuperar senha</CardTitle>
+                  <CardDescription>
+                    Digite seu email para receber um link de recuperação de
+                    senha
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ForgotPasswordForm
+                    openSignInTab={() => setSelectedTab("signIn")}
+                  />
+                </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
