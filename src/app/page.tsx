@@ -2,13 +2,18 @@
 
 import SignInSignOutButton from "@/components/sign-in-sign-out-button";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 
 export default function Home() {
   const { data: session, isPending: loading } = authClient.useSession();
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
