@@ -1,6 +1,16 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { EyeClosedIcon, EyeIcon, Loader2 } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type { z } from "zod";
+import { authClient } from "@/lib/auth-client";
+import { translateAuthError } from "@/lib/auth-errors";
+import { signUpFormSchema } from "@/utils/form-schemas";
+import Toast from "./toaster";
+import { Button } from "./ui/button";
 import {
   Form,
   FormControl,
@@ -10,16 +20,6 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input } from "./ui/input";
-import { signUpFormSchema } from "@/utils/form-schemas";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "./ui/button";
-import { useForm } from "react-hook-form";
-import { EyeClosedIcon, EyeIcon, Loader2 } from "lucide-react";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { toast } from "sonner";
-import Toast from "./toaster";
-import { translateAuthError } from "@/lib/auth-errors";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,7 +59,7 @@ export default function SignUpForm() {
             />
           ));
         },
-      }
+      },
     );
   }
 
@@ -153,10 +153,7 @@ export default function SignUpForm() {
         />
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? (
-            <>
-              <Loader2 className="size-4 animate-spin" />
-              Criar conta
-            </>
+            <Loader2 className="size-4 animate-spin" />
           ) : (
             "Criar conta"
           )}

@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowLeftIcon, Loader2 } from "lucide-react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
@@ -32,9 +33,26 @@ export default function ForgotPasswordForm({
     },
   });
 
+  const interval = useRef<NodeJS.Timeout>(undefined);
+  const [seconds, setSeconds] = useState(0);
+
+  function startTimer(time = 30) {
+    setSeconds(time);
+    interval.current = setInterval(() => {
+      setSeconds((t) => {
+        if (t <= 1) {
+          clearInterval(interval.current);
+          return 0;
+        }
+        return t - 1;
+      });
+    }, 1000);
+  }
+
   const isSubmitting = form.formState.isSubmitting;
 
   async function onSubmit(data: z.infer<typeof forgotPasswordFormSchema>) {
+    startTimer();
     await authClient.requestPasswordReset(
       {
         ...data,
@@ -89,9 +107,15 @@ export default function ForgotPasswordForm({
             <ArrowLeftIcon className="size-4" />
             Voltar
           </Button>
-          <Button type="submit" className="flex-1" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            className="flex-1"
+            disabled={isSubmitting || seconds > 0}
+          >
             {isSubmitting ? (
               <Loader2 className="size-4 animate-spin" />
+            ) : seconds > 0 ? (
+              `Enviar link de recuperação (${seconds}s)`
             ) : (
               "Enviar link de recuperação"
             )}

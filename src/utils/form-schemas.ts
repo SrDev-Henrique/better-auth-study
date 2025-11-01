@@ -23,6 +23,19 @@ export const forgotPasswordFormSchema = z.object({
     }),
 });
 
+export const resetPasswordFormSchema = z
+  .object({
+    password: z.string().min(6, {
+      message: "Senha deve ter pelo menos 6 caracteres",
+    }),
+    confirmPassword: z.string().min(6, {
+      message: "Senha deve ter pelo menos 6 caracteres",
+    }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem",
+    path: ["confirmPassword"],
+  });
 export const signUpFormSchema = z
   .object({
     name: z

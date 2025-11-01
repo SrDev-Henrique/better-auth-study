@@ -116,10 +116,7 @@ export default function SignInForm({
         />
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? (
-            <>
-              <Loader2 className="size-4 animate-spin" />
-              Entrar
-            </>
+            <Loader2 className="size-4 animate-spin" />
           ) : (
             "Entrar"
           )}

@@ -17,11 +17,13 @@ export async function sendResetPassword({
     to: user.email,
     subject: "Redefinir senha",
     html: `
-            <p>Olá${user.name ? `, ${user.name}` : ""}!</p>
-            <p>Recebemos uma solicitação para redefinir sua senha.</p>
-            <p>Clique no link abaixo para continuar:</p>
-            <p><a href="${url}">Redefinir senha</a></p>
-            <p>Se você não solicitou, ignore este e-mail.</p>
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <p>Olá${user.name ? `, ${user.name}` : ""}!</p>
+              <p>Recebemos uma solicitação para redefinir sua senha.</p>
+              <p>Clique no link abaixo para continuar:</p>
+              <a href="${url}" style="background-color: #000; color: #fff; padding: 10px 20px; border-radius: 5px; text-decoration: none; display: inline-block; margin: 16px;">Redefinir senha</a>
+              <p>Se você não solicitou, ignore este e-mail.</p>
+            </div>
           `,
     text: `Olá${user.name ? `, ${user.name}` : ""}!
                 Recebemos uma solicitação para redefinir sua senha.
