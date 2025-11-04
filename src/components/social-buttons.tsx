@@ -1,10 +1,10 @@
 "use client";
 
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
+import { authClient } from "@/lib/auth/auth-client";
 import { SUPPORTED_OAUTH_PROVIDERS_DETAILS } from "@/lib/oauth-providers";
 import { cn } from "@/lib/utils";
-import { authClient } from "@/lib/auth-client";
-import { useState, useTransition } from "react";
 import { Spinner } from "./ui/spinner";
 
 export default function SocialButtons({ signIn }: { signIn?: boolean }) {
@@ -20,7 +20,7 @@ export default function SocialButtons({ signIn }: { signIn?: boolean }) {
             className={cn(
               index % 2 === 0
                 ? "bg-[#DB4437] text-white after:flex-1 hover:bg-[#DB4437]/90"
-                : "bg-[#333333] text-white after:flex-1 hover:bg-[#333333]/90"
+                : "bg-[#333333] text-white after:flex-1 hover:bg-[#333333]/90",
             )}
             onClick={() =>
               startTransition(async () => {

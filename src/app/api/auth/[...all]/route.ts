@@ -2,15 +2,15 @@
 import { findIp } from "@arcjet/ip";
 import arcjet, {
   type BotOptions,
-  type EmailOptions,
-  type SlidingWindowRateLimitOptions,
   detectBot,
+  type EmailOptions,
   protectSignup,
+  type SlidingWindowRateLimitOptions,
   shield,
   slidingWindow,
 } from "@arcjet/next";
 import { toNextJsHandler } from "better-auth/next-js";
-import { auth } from "@/lib/auth";
+import { auth } from "@/lib/auth/auth";
 
 const aj = arcjet({
   key: process.env.ARCJET_KEY!,
@@ -72,14 +72,14 @@ export async function POST(request: Request) {
         {
           message,
         },
-        { status: 400 }
+        { status: 400 },
       );
     } else {
       return Response.json(
         {
           message: "Erro desconhecido",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
   }
@@ -108,7 +108,7 @@ async function checkArcjet(request: Request) {
             email: emailSettings,
             bots: botSettings,
             rateLimit: restrictiveRateLimitSettings,
-          })
+          }),
         )
         .protect(request, { email: body.email, userIdOrIp });
     }

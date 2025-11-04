@@ -60,6 +60,9 @@ export const signUpFormSchema = z
     confirmPassword: z.string().min(6, {
       message: "Senha deve ter pelo menos 6 caracteres",
     }),
+    favoriteNumber: z.number().int().min(1, {
+      message: "Número é obrigatório",
+    }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "As senhas não coincidem",

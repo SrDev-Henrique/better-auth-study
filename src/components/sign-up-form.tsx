@@ -6,9 +6,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
-import { authClient } from "@/lib/auth-client";
-import { translateAuthError } from "@/lib/auth-errors";
+import { authClient } from "@/lib/auth/auth-client";
+import { translateAuthError } from "@/lib/auth/auth-errors";
 import { signUpFormSchema } from "@/utils/form-schemas";
+import NumberInput from "./number-input";
 import Toast from "./toaster";
 import { Button } from "./ui/button";
 import {
@@ -39,7 +40,7 @@ export default function SignUpForm() {
 
   async function onSubmit(data: z.infer<typeof signUpFormSchema>) {
     await authClient.signUp.email(
-      { ...data },
+      { ...data, callbackURL: "/" },
       {
         onError: (error) => {
           toast.custom((t) => (
@@ -148,6 +149,35 @@ export default function SignUpForm() {
                   <EyeClosedIcon className="size-4" />
                 )}
               </Button>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="favoriteNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Número favorito</FormLabel>
+              <FormControl>
+                <NumberInput
+                  value={
+                    field.value !== undefined
+                      ? `+${String(field.value)}`
+                      : undefined
+                  }
+                  onChange={(val) => {
+                    const digits = val ? String(val).replace(/\D/g, "") : "";
+                    const nextValue = digits ? Number(digits) : undefined;
+                    // Allow transient undefined while typing; RHF will enforce schema on submit
+                    (
+                      field.onChange as unknown as (
+                        v: number | undefined,
+                      ) => void
+                    )(nextValue);
+                  }}
+                />
+              </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />

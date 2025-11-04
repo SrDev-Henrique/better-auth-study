@@ -26,8 +26,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { authClient } from "@/lib/auth-client";
-import { translateAuthError } from "@/lib/auth-errors";
+import { authClient } from "@/lib/auth/auth-client";
+import { translateAuthError } from "@/lib/auth/auth-errors";
 import { resetPasswordFormSchema } from "@/utils/form-schemas";
 
 export default function ResetPasswordForm() {
