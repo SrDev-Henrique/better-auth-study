@@ -31,7 +31,7 @@ export default function Toast({
             />
             <div className="flex grow flex-col gap-3">
               <div className="space-y-1">
-                <p className="text-sm font-medium">Erro:</p>
+                <p className="text-sm font-medium">{message}:</p>
                 <p className="text-sm text-muted-foreground">{errorMessage}</p>
               </div>
               <div className="flex gap-2">

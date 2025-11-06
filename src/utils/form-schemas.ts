@@ -36,6 +36,7 @@ export const resetPasswordFormSchema = z
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
+
 export const signUpFormSchema = z
   .object({
     name: z
@@ -68,3 +69,9 @@ export const signUpFormSchema = z
     message: "As senhas não coincidem",
     path: ["confirmPassword"],
   });
+
+export const profileUpdateSchema = z.object({
+    name: z.string(),
+    email: z.email(),
+    favoriteNumber: z.number().int().min(1, { message: "Número é obrigatório" }),
+  })

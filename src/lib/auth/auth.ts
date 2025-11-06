@@ -6,9 +6,16 @@ import { nextCookies } from "better-auth/next-js";
 import { db } from "@/drizzle/db";
 import { sendResetPassword } from "../email/send-reset-password";
 import { sendWelcomeEmail } from "../email/send-welcome-email";
+import { sendChangeEmailVerification } from "../email/send-change-email-verification";
 
 export const auth = betterAuth({
   user: {
+    changeEmail: {
+      enabled: true,
+      sendChangeEmailVerification: async ({ user, url, newEmail }) => {
+        await sendChangeEmailVerification({ user: { ...user, email:newEmail}, url });
+      }
+    },
     additionalFields: {
       favoriteNumber: {
         type: "number",
@@ -31,6 +38,15 @@ export const auth = betterAuth({
         return {
           favoriteNumber: 0,
         };
+      },
+    },
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
+      mapProfileToUser: profile => {
+        return {
+          favoriteNumber: Number(profile.public_repos) || 0,
+        }
       },
     },
   },

@@ -49,7 +49,8 @@ export default function LoginPage() {
                 <TabsTrigger value="signIn">Entrar</TabsTrigger>
                 <TabsTrigger value="signUp">Criar conta</TabsTrigger>
               </TabsList>
-            )}
+              )}
+              
             <TabsContent value="signIn">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -62,13 +63,16 @@ export default function LoginPage() {
                       setSelectedTab("forgot-password")
                     }
                   />
-                </CardContent>
-                <Separator />
+                  </CardContent>
+                  
+                  <Separator />
+                  
                 <CardFooter className="flex flex-col gap-5">
                   <SocialButtons signIn={true} />
                 </CardFooter>
               </Card>
             </TabsContent>
+              
             <TabsContent value="signUp">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -86,6 +90,7 @@ export default function LoginPage() {
                 </CardFooter>
               </Card>
             </TabsContent>
+              
             <TabsContent value="forgot-password">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -102,6 +107,7 @@ export default function LoginPage() {
                 </CardContent>
               </Card>
             </TabsContent>
+              
           </Tabs>
         </div>
       )}

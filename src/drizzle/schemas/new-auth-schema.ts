@@ -4,6 +4,7 @@ import {
   pgTable,
   text,
   timestamp,
+  bigint,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -17,7 +18,7 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  favoriteNumber: integer("favorite_number").notNull(),
+  favoriteNumber: bigint("favorite_number", { mode: "number" }).notNull(),
 });
 
 export const session = pgTable("session", {

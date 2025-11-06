@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import SignInSignOutButton from "@/components/sign-in-sign-out-button";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -26,13 +27,21 @@ export default function Home() {
             Bem-vindo,{" "}
             <span className="text-foreground">{session.user?.name}</span>
           </h1>
-          <Button
-            className="cursor-pointer"
-            variant="destructive"
-            onClick={() => authClient.signOut()}
-          >
-            Sair
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              variant="outline"
+              asChild
+            >
+              <Link href="/profile">Perfil</Link>
+            </Button>
+            <Button
+              className="cursor-pointer"
+              variant="destructive"
+              onClick={() => authClient.signOut()}
+            >
+              Sair
+            </Button>
+          </div>
         </>
       )}
     </div>

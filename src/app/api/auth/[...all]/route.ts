@@ -12,35 +12,37 @@ import arcjet, {
 import { toNextJsHandler } from "better-auth/next-js";
 import { auth } from "@/lib/auth/auth";
 
+const ARCJET_MODE = (process.env.NODE_ENV === "production" ? "LIVE" : "DRY_RUN") as "LIVE" | "DRY_RUN";
+
 const aj = arcjet({
   key: process.env.ARCJET_KEY!,
   characteristics: ["userIdOrIp"],
   rules: [
     shield({
-      mode: "LIVE",
+      mode: ARCJET_MODE,
     }),
   ],
 });
 
 const botSettings = {
-  mode: "LIVE",
+  mode: ARCJET_MODE,
   allow: [],
 } satisfies BotOptions;
 
 const restrictiveRateLimitSettings = {
-  mode: "LIVE",
+  mode: ARCJET_MODE,
   max: 10,
   interval: "10m",
 } satisfies SlidingWindowRateLimitOptions<[]>;
 
 const laxRateLimitSettings = {
-  mode: "LIVE",
+  mode: ARCJET_MODE,
   max: 60,
   interval: "1m",
 } satisfies SlidingWindowRateLimitOptions<[]>;
 
 const emailSettings = {
-  mode: "LIVE",
+  mode: ARCJET_MODE,
   block: ["DISPOSABLE", "INVALID", "NO_MX_RECORDS"],
 } satisfies EmailOptions;
 
@@ -54,7 +56,10 @@ export async function POST(request: Request) {
 
   if (decision.isDenied()) {
     if (decision.reason.isRateLimit()) {
-      return new Response("Rate limited", { status: 429 });
+      return Response.json(
+        { message: "Muitas tentativas. Tente novamente mais tarde." },
+        { status: 429 },
+      );
     }
     if (decision.reason.isEmail()) {
       let message: string;
@@ -77,7 +82,7 @@ export async function POST(request: Request) {
     } else {
       return Response.json(
         {
-          message: "Erro desconhecido",
+          message: "Acesso bloqueado por proteção anti-bot",
         },
         { status: 400 },
       );
