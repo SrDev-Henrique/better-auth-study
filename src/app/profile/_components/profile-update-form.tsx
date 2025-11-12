@@ -2,9 +2,12 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import type z from "zod";
 import NumberInput from "@/components/number-input";
+import Toast from "@/components/toaster";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -15,12 +18,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { profileUpdateSchema } from "@/utils/form-schemas";
 import { authClient } from "@/lib/auth/auth-client";
-import { toast } from "sonner";
-import Toast from "@/components/toaster";
-import { useRouter } from "next/navigation";
 import { translateAuthError } from "@/lib/auth/auth-errors";
+import { profileUpdateSchema } from "@/utils/form-schemas";
 
 type ProfileUpdateFormData = z.infer<typeof profileUpdateSchema>;
 
@@ -48,28 +48,32 @@ export default function ProfileUpdateForm({
         name: data.name,
         favoriteNumber: data.favoriteNumber,
       }),
-    ]
+    ];
 
     if (data.email !== user.email) {
       promises.push(
         authClient.changeEmail({
           newEmail: data.email,
           callbackURL: "/profile",
-        })
-      )
+        }),
+      );
     }
 
-    const res = await Promise.all(promises)
+    const res = await Promise.all(promises);
 
-    const updateUserResult = res[0]
-    const emailResult = res[1] ?? { error: false }
+    const updateUserResult = res[0];
+    const emailResult = res[1] ?? { error: false };
 
     if (updateUserResult.error) {
       toast.custom((t) => (
         <Toast
           error={true}
           message="Erro ao atualizar perfil"
-          errorMessage={translateAuthError(updateUserResult.error as unknown as { error?: { code?: string; message?: string } })}
+          errorMessage={translateAuthError(
+            updateUserResult.error as unknown as {
+              error?: { code?: string; message?: string };
+            },
+          )}
           onClick={() => toast.dismiss(t)}
         />
       ));
@@ -81,7 +85,11 @@ export default function ProfileUpdateForm({
         <Toast
           error={true}
           message="Erro ao alterar email"
-          errorMessage={translateAuthError(emailResult.error as unknown as { error?: { code?: string; message?: string } })}
+          errorMessage={translateAuthError(
+            emailResult.error as unknown as {
+              error?: { code?: string; message?: string };
+            },
+          )}
           onClick={() => toast.dismiss(t)}
         />
       ));
@@ -101,7 +109,7 @@ export default function ProfileUpdateForm({
           />
         ));
       }
-      router.refresh()
+      router.refresh();
     }
   }
 
@@ -109,7 +117,7 @@ export default function ProfileUpdateForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleUpdateProfile)}
-        className="space-y-4"
+        className="w-full max-w-md mx-auto space-y-4"
       >
         <FormField
           control={form.control}
@@ -143,7 +151,7 @@ export default function ProfileUpdateForm({
           name="favoriteNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Número favorito</FormLabel>
+              <FormLabel>Número de contato</FormLabel>
               <FormControl>
                 <NumberInput
                   value={

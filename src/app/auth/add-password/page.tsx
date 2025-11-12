@@ -30,7 +30,7 @@ import { authClient } from "@/lib/auth/auth-client";
 import { translateAuthError } from "@/lib/auth/auth-errors";
 import { resetPasswordFormSchema } from "@/utils/form-schemas";
 
-export default function ResetPasswordForm() {
+export default function AddPasswordForm() {
   const form = useForm<z.infer<typeof resetPasswordFormSchema>>({
     resolver: zodResolver(resetPasswordFormSchema),
     defaultValues: {
@@ -62,7 +62,7 @@ export default function ResetPasswordForm() {
           toast.custom((t) => (
             <Toast
               error={true}
-              message="Erro ao redefinir senha"
+              message="Erro ao adicionar senha"
               errorMessage={translateAuthError(error)}
               onClick={() => toast.dismiss(t)}
             />
@@ -71,10 +71,11 @@ export default function ResetPasswordForm() {
         onSuccess: () => {
           toast.custom((t) => (
             <Toast
-              message="Senha redefinida com sucesso"
+              message="Senha adicionada com sucesso"
               onClick={() => toast.dismiss(t)}
             />
           ));
+          router.push("/");
         },
       },
     );
@@ -88,7 +89,7 @@ export default function ResetPasswordForm() {
             <CircleAlertIcon className="size-10 text-muted-foreground mx-auto" />
             <CardTitle>Link inválido</CardTitle>
             <CardDescription>
-              O link para redefinir a senha é inválido ou expirou. Por favor,
+              O link para adicionar a senha é inválido ou expirou. Por favor,
               solicite um novo link.
             </CardDescription>
           </CardHeader>
@@ -97,7 +98,7 @@ export default function ResetPasswordForm() {
               onClick={() => router.push("/auth/login")}
               className="w-full"
             >
-              Solicitar novo link
+              Solicitar novo link de adição de senha
             </Button>
           </CardFooter>
         </Card>
@@ -109,8 +110,10 @@ export default function ResetPasswordForm() {
     <div className="min-h-screen flex items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="text-2xl font-bold">
-          <CardTitle>Redefinir senha</CardTitle>
-          <CardDescription>Crie uma nova senha para sua conta</CardDescription>
+          <CardTitle>Adicionar senha</CardTitle>
+          <CardDescription>
+            Adicione uma senha para proteger sua conta
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -182,7 +185,7 @@ export default function ResetPasswordForm() {
                 {isSubmitting ? (
                   <Loader2 className="size-4 animate-spin" />
                 ) : (
-                  "Redefinir senha"
+                  "Adicionar senha"
                 )}
               </Button>
             </form>

@@ -3,8 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import ForgotPasswordForm from "@/components/forgot-password";
-import SignInForm from "@/components/sign-in-form";
-import SignUpForm from "@/components/sign-up-form";
+import SignInForm from "@/components/forms/sign-in-form";
+import SignUpForm from "@/components/forms/sign-up-form";
 import SocialButtons from "@/components/social-buttons";
 import {
   Card,
@@ -49,8 +49,8 @@ export default function LoginPage() {
                 <TabsTrigger value="signIn">Entrar</TabsTrigger>
                 <TabsTrigger value="signUp">Criar conta</TabsTrigger>
               </TabsList>
-              )}
-              
+            )}
+
             <TabsContent value="signIn">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -63,16 +63,16 @@ export default function LoginPage() {
                       setSelectedTab("forgot-password")
                     }
                   />
-                  </CardContent>
-                  
-                  <Separator />
-                  
+                </CardContent>
+
+                <Separator />
+
                 <CardFooter className="flex flex-col gap-5">
                   <SocialButtons signIn={true} />
                 </CardFooter>
               </Card>
             </TabsContent>
-              
+
             <TabsContent value="signUp">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -90,7 +90,7 @@ export default function LoginPage() {
                 </CardFooter>
               </Card>
             </TabsContent>
-              
+
             <TabsContent value="forgot-password">
               <Card>
                 <CardHeader className="text-2xl font-bold">
@@ -107,7 +107,6 @@ export default function LoginPage() {
                 </CardContent>
               </Card>
             </TabsContent>
-              
           </Tabs>
         </div>
       )}

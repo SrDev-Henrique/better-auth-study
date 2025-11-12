@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import SignInSignOutButton from "@/components/sign-in-sign-out-button";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -8,6 +9,7 @@ import { authClient } from "@/lib/auth/auth-client";
 
 export default function Home() {
   const { data: session, isPending: loading } = authClient.useSession();
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -28,16 +30,16 @@ export default function Home() {
             <span className="text-foreground">{session.user?.name}</span>
           </h1>
           <div className="flex gap-4">
-            <Button
-              variant="outline"
-              asChild
-            >
+            <Button variant="outline" asChild>
               <Link href="/profile">Perfil</Link>
             </Button>
             <Button
               className="cursor-pointer"
               variant="destructive"
-              onClick={() => authClient.signOut()}
+              onClick={() => {
+                authClient.signOut();
+                router.push("/auth/login");
+              }}
             >
               Sair
             </Button>

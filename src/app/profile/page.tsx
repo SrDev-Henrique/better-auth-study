@@ -1,18 +1,19 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Spinner } from "@/components/ui/spinner";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { auth } from "@/lib/auth/auth";
-import { ArrowLeft, Trash2, LinkIcon, Key, Shield, User } from "lucide-react";
+import { ArrowLeft, Key, LinkIcon, Shield, Trash2, User } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { auth } from "@/lib/auth/auth";
+import LoadingSuspense from "./_components/loading-suspense";
 import ProfileUpdateForm from "./_components/profile-update-form";
+import SecurityTab from "./_components/security-tab";
 
 export default async function ProfilePage() {
-  const session = await auth.api.getSession({ headers: await headers()})
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  if (session === null) redirect("/auth/login")
+  if (session === null) redirect("/auth/login");
 
   return (
     <div className="max-w-4xl mx-auto my-6 px-4">
@@ -72,22 +73,17 @@ export default async function ProfilePage() {
         </TabsList>
 
         <TabsContent value="profile">
-          <div className="max-w-md w-full mx-auto">
-            <Card>
+          <Card>
             <CardContent>
               <ProfileUpdateForm user={session.user} />
             </CardContent>
           </Card>
-          </div>
         </TabsContent>
 
         <TabsContent value="security">
-          {/* <LoadingSuspense>
-            <SecurityTab
-              email={session.user.email}
-              isTwoFactorEnabled={session.user.twoFactorEnabled ?? false}
-            />
-          </LoadingSuspense> */}
+          <LoadingSuspense>
+            <SecurityTab email={session.user.email} isTwoFactorEnabled={true} />
+          </LoadingSuspense>
         </TabsContent>
 
         <TabsContent value="sessions">
@@ -107,9 +103,7 @@ export default async function ProfilePage() {
             <CardHeader>
               <CardTitle className="text-destructive">Zona de perigo</CardTitle>
             </CardHeader>
-            <CardContent>
-              {/* <AccountDeletion /> */}
-            </CardContent>
+            <CardContent>{/* <AccountDeletion /> */}</CardContent>
           </Card>
         </TabsContent>
       </Tabs>

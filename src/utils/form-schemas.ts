@@ -71,7 +71,21 @@ export const signUpFormSchema = z
   });
 
 export const profileUpdateSchema = z.object({
-    name: z.string(),
-    email: z.email(),
-    favoriteNumber: z.number().int().min(1, { message: "Número é obrigatório" }),
+  name: z.string(),
+  email: z.email(),
+  favoriteNumber: z.number().int().min(1, { message: "Número é obrigatório" }),
+});
+
+export const changePasswordFormSchema = z
+  .object({
+    newPassword: z.string().min(6, {
+      message: "Senha deve ter pelo menos 6 caracteres",
+    }),
+    confirmNewPassword: z.string().min(6, {
+      message: "Senha deve ter pelo menos 6 caracteres",
+    }),
   })
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    message: "As senhas não coincidem",
+    path: ["confirmNewPassword"],
+  });

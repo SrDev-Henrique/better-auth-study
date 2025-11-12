@@ -9,9 +9,9 @@ import type { z } from "zod";
 import { authClient } from "@/lib/auth/auth-client";
 import { translateAuthError } from "@/lib/auth/auth-errors";
 import { signUpFormSchema } from "@/utils/form-schemas";
-import NumberInput from "./number-input";
-import Toast from "./toaster";
-import { Button } from "./ui/button";
+import NumberInput from "../number-input";
+import Toast from "../toaster";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -19,8 +19,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -157,7 +157,7 @@ export default function SignUpForm() {
           name="favoriteNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Número favorito</FormLabel>
+              <FormLabel>Número de contato</FormLabel>
               <FormControl>
                 <NumberInput
                   value={

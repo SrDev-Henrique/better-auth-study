@@ -10,8 +10,8 @@ import type { z } from "zod";
 import { authClient } from "@/lib/auth/auth-client";
 import { translateAuthError } from "@/lib/auth/auth-errors";
 import { signInFormSchema } from "@/utils/form-schemas";
-import Toast from "./toaster";
-import { Button } from "./ui/button";
+import Toast from "../toaster";
+import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -19,8 +19,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
+} from "../ui/form";
+import { Input } from "../ui/input";
 
 export default function SignInForm({
   openForgotPasswordTab,
