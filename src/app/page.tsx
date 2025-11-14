@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 import SignInSignOutButton from "@/components/sign-in-sign-out-button";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
@@ -10,6 +11,15 @@ import { authClient } from "@/lib/auth/auth-client";
 export default function Home() {
   const { data: session, isPending: loading } = authClient.useSession();
   const router = useRouter();
+
+  const [isSigningOut, startTransition] = useTransition();
+
+  function handleSignOut() {
+    startTransition(async () => {
+      await authClient.signOut();
+      router.push("/auth/login");
+    });
+  }
 
   if (loading) {
     return (
@@ -36,12 +46,15 @@ export default function Home() {
             <Button
               className="cursor-pointer"
               variant="destructive"
-              onClick={() => {
-                authClient.signOut();
-                router.push("/auth/login");
-              }}
+              onClick={handleSignOut}
             >
-              Sair
+              {isSigningOut ? (
+                <>
+                  <Spinner /> Sair
+                </>
+              ) : (
+                "Sair"
+              )}
             </Button>
           </div>
         </>

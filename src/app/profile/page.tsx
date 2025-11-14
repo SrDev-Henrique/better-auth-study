@@ -9,6 +9,7 @@ import { auth } from "@/lib/auth/auth";
 import LoadingSuspense from "./_components/loading-suspense";
 import ProfileUpdateForm from "./_components/profile-update-form";
 import SecurityTab from "./_components/security-tab";
+import SessionsTab from "./_components/sessions-tab";
 
 export default async function ProfilePage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -82,14 +83,14 @@ export default async function ProfilePage() {
 
         <TabsContent value="security">
           <LoadingSuspense>
-            <SecurityTab email={session.user.email} isTwoFactorEnabled={true} />
+            <SecurityTab email={session.user.email} />
           </LoadingSuspense>
         </TabsContent>
 
         <TabsContent value="sessions">
-          {/* <LoadingSuspense>
+          <LoadingSuspense>
             <SessionsTab currentSessionToken={session.session.token} />
-          </LoadingSuspense> */}
+          </LoadingSuspense>
         </TabsContent>
 
         <TabsContent value="accounts">

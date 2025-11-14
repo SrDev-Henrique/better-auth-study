@@ -1,5 +1,5 @@
 import { headers } from "next/headers";
-import PasswordForm from "@/components/forms/password-form";
+import ChangePasswordForm from "@/components/forms/change-password-form";
 import {
   Card,
   CardContent,
@@ -12,10 +12,8 @@ import SetPasswordButton from "./set-password-button";
 
 export default async function SecurityTab({
   email,
-  isTwoFactorEnabled,
 }: {
   email: string;
-  isTwoFactorEnabled: boolean;
 }) {
   const accounts = await auth.api.listUserAccounts({
     headers: await headers(),
@@ -37,7 +35,7 @@ export default async function SecurityTab({
           </CardHeader>
 
           <CardContent>
-            <PasswordForm />
+            <ChangePasswordForm />
           </CardContent>
         </Card>
       ) : (

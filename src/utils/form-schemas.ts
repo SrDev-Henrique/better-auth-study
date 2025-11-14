@@ -78,12 +78,16 @@ export const profileUpdateSchema = z.object({
 
 export const changePasswordFormSchema = z
   .object({
+    currentPassword: z.string().min(6, {
+      message: "Senha deve ter pelo menos 6 caracteres",
+    }),
     newPassword: z.string().min(6, {
       message: "Senha deve ter pelo menos 6 caracteres",
     }),
     confirmNewPassword: z.string().min(6, {
       message: "Senha deve ter pelo menos 6 caracteres",
     }),
+    revokeOtherSessions: z.boolean().optional(),
   })
   .refine((data) => data.newPassword === data.confirmNewPassword, {
     message: "As senhas não coincidem",
