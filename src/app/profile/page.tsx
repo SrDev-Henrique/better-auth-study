@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth/auth";
 import LoadingSuspense from "./_components/loading-suspense";
 import ProfileUpdateForm from "./_components/profile-update-form";
+import AccountDeletion from "./_components/tabs/account-deletion";
 import LinkedAccountsTab from "./_components/tabs/linked-accounts-tab";
 import SecurityTab from "./_components/tabs/security-tab";
 import SessionsTab from "./_components/tabs/sessions-tab";
@@ -102,10 +103,14 @@ export default async function ProfilePage() {
 
         <TabsContent value="danger">
           <Card className="border border-destructive">
-            <CardHeader>
-              <CardTitle className="text-destructive">Zona de perigo</CardTitle>
+            <CardHeader className="w-full max-w-md mx-auto">
+              <CardTitle className="text-destructive text-center">
+                Zona de perigo
+              </CardTitle>
             </CardHeader>
-            <CardContent>{/* <AccountDeletion /> */}</CardContent>
+            <CardContent className="w-full max-w-md mx-auto">
+              <AccountDeletion />
+            </CardContent>
           </Card>
         </TabsContent>
       </Tabs>

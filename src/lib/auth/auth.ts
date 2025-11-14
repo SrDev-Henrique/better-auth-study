@@ -4,17 +4,41 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/drizzle/db";
+import { sendChangeEmailVerification } from "../email/send-change-email-verification";
+import { sendDeleteAccountConfirmationEmail } from "../email/send-delete-account-confirmation-email";
 import { sendResetPassword } from "../email/send-reset-password";
 import { sendWelcomeEmail } from "../email/send-welcome-email";
-import { sendChangeEmailVerification } from "../email/send-change-email-verification";
 
 export const auth = betterAuth({
   user: {
     changeEmail: {
       enabled: true,
-      sendChangeEmailVerification: async ({ user, url, newEmail }) => {
-        await sendChangeEmailVerification({ user: { ...user, email:newEmail}, url });
-      }
+      sendChangeEmailVerification: async ({
+        user,
+        url,
+        newEmail,
+      }: {
+        user: { email: string; name?: string | null };
+        url: string;
+        newEmail: string;
+      }) => {
+        await sendChangeEmailVerification({
+          user: { ...user, email: newEmail },
+          url,
+        });
+      },
+    },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({
+        user,
+        url,
+      }: {
+        user: { email: string; name?: string | null };
+        url: string;
+      }) => {
+        await sendDeleteAccountConfirmationEmail({ user, url });
+      },
     },
     additionalFields: {
       favoriteNumber: {
@@ -26,7 +50,13 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 6,
-    sendResetPassword: async ({ user, url }) => {
+    sendResetPassword: async ({
+      user,
+      url,
+    }: {
+      user: { email: string; name?: string | null };
+      url: string;
+    }) => {
       await sendResetPassword({ user, url });
     },
   },
@@ -43,10 +73,10 @@ export const auth = betterAuth({
     github: {
       clientId: process.env.GITHUB_CLIENT_ID!,
       clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      mapProfileToUser: profile => {
+      mapProfileToUser: (profile) => {
         return {
           favoriteNumber: Number(profile.public_repos) || 0,
-        }
+        };
       },
     },
   },

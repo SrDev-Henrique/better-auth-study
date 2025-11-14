@@ -6,13 +6,20 @@ export function LoadingSwap({
   isLoading,
   children,
   className,
+  disabled,
 }: {
   isLoading: boolean;
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
 }) {
   return (
-    <div className="grid grid-cols-1 items-center justify-items-center">
+    <div
+      className={cn(
+        "grid grid-cols-1 items-center justify-items-center",
+        disabled && "opacity-50 pointer-events-none",
+      )}
+    >
       <div
         className={cn(
           "col-start-1 col-end-2 row-start-1 row-end-2 w-full",
