@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { auth } from "@/lib/auth/auth";
-import SetPasswordButton from "./set-password-button";
+import SetPasswordButton from "../set-password-button";
 
 export default async function SecurityTab({
   email,

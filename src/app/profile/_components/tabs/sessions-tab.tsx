@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { Card, CardContent } from "@/components/ui/card";
 import { auth } from "@/lib/auth/auth";
-import SessionManagement from "./session-management";
+import SessionManagement from "../session-management";
 
 export default async function SessionsTab({
   currentSessionToken,

@@ -8,7 +8,6 @@ import { UAParser } from "ua-parser-js";
 import { BetterAuthActionButton } from "@/components/auth/better-auth-action-button";
 import Toast from "@/components/toaster";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { authClient } from "@/lib/auth/auth-client";
 import { translateAuthError } from "@/lib/auth/auth-errors";
@@ -60,7 +59,7 @@ export default function SessionManagement({
       )}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-medium">Other Active Sessions</h3>
+          <h3 className="text-lg font-medium">Outras sessões ativas</h3>
           {otherSessions.length > 0 && (
             <BetterAuthActionButton
               variant="destructive"

@@ -8,8 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { auth } from "@/lib/auth/auth";
 import LoadingSuspense from "./_components/loading-suspense";
 import ProfileUpdateForm from "./_components/profile-update-form";
-import SecurityTab from "./_components/security-tab";
-import SessionsTab from "./_components/sessions-tab";
+import LinkedAccountsTab from "./_components/tabs/linked-accounts-tab";
+import SecurityTab from "./_components/tabs/security-tab";
+import SessionsTab from "./_components/tabs/sessions-tab";
 
 export default async function ProfilePage() {
   const session = await auth.api.getSession({ headers: await headers() });
@@ -94,9 +95,9 @@ export default async function ProfilePage() {
         </TabsContent>
 
         <TabsContent value="accounts">
-          {/* <LoadingSuspense>
+          <LoadingSuspense>
             <LinkedAccountsTab />
-          </LoadingSuspense> */}
+          </LoadingSuspense>
         </TabsContent>
 
         <TabsContent value="danger">
