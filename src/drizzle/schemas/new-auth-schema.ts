@@ -1,10 +1,9 @@
 import {
-  boolean,
-  integer,
   pgTable,
   text,
   timestamp,
-  bigint,
+  boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -18,7 +17,8 @@ export const user = pgTable("user", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
-  favoriteNumber: bigint("favorite_number", { mode: "number" }).notNull(),
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  favoriteNumber: integer("favorite_number").notNull(),
 });
 
 export const session = pgTable("session", {
@@ -66,4 +66,13 @@ export const verification = pgTable("verification", {
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+});
+
+export const twoFactor = pgTable("two_factor", {
+  id: text("id").primaryKey(),
+  secret: text("secret").notNull(),
+  backupCodes: text("backup_codes").notNull(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
 });

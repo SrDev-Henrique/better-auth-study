@@ -8,6 +8,13 @@
       "when": 1762447834940,
       "tag": "0000_hesitant_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763142746162,
+      "tag": "0001_common_giant_man",
+      "breakpoints": true
     }
   ]
 }

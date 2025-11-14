@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import ChangePasswordForm from "@/components/forms/change-password-form";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -9,11 +10,14 @@ import {
 } from "@/components/ui/card";
 import { auth } from "@/lib/auth/auth";
 import SetPasswordButton from "../set-password-button";
+import TwoFactorAuth from "../two-factor-auth";
 
 export default async function SecurityTab({
   email,
+  isTwoFactorEnabled,
 }: {
   email: string;
+  isTwoFactorEnabled: boolean;
 }) {
   const accounts = await auth.api.listUserAccounts({
     headers: await headers(),
@@ -52,6 +56,19 @@ export default async function SecurityTab({
             <div className="w-full flex justify-center">
               <SetPasswordButton email={email} />
             </div>
+          </CardContent>
+        </Card>
+      )}
+      {hasPasswordAccount && (
+        <Card>
+          <CardHeader className="flex items-center justify-between gap-2 w-full max-w-md mx-auto px-0">
+            <CardTitle>Autenticação de dois fatores</CardTitle>
+            <Badge variant={isTwoFactorEnabled ? "default" : "outline"}>
+              {isTwoFactorEnabled ? "Ativado" : "Desativado"}
+            </Badge>
+          </CardHeader>
+          <CardContent>
+            <TwoFactorAuth isEnabled={isTwoFactorEnabled} />
           </CardContent>
         </Card>
       )}

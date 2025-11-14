@@ -93,3 +93,27 @@ export const changePasswordFormSchema = z
     message: "As senhas não coincidem",
     path: ["confirmNewPassword"],
   });
+
+export const twoFactorAuthSchema = z.object({
+  password: z.string().min(1, {
+    message: "Senha é obrigatória",
+  }),
+});
+
+export const qrCodeVerifySchema = z.object({
+  token: z.string().length(6, {
+    message: "Token precisa ter 6 dígitos",
+  }),
+});
+
+export const TotpFormSchema = z.object({
+  code: z.string().length(6, {
+    message: "Código precisa ter 6 dígitos",
+  }),
+});
+
+export const BackupCodeFormSchema = z.object({
+  code: z.string().min(1, {
+    message: "Código é obrigatório",
+  }),
+});

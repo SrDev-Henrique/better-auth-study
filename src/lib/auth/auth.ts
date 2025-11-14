@@ -3,6 +3,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
+import { twoFactor } from "better-auth/plugins/two-factor";
 import { db } from "@/drizzle/db";
 import { sendChangeEmailVerification } from "../email/send-change-email-verification";
 import { sendDeleteAccountConfirmationEmail } from "../email/send-delete-account-confirmation-email";
@@ -86,7 +87,7 @@ export const auth = betterAuth({
       maxAge: 60 * 5,
     },
   },
-  plugins: [nextCookies()],
+  plugins: [nextCookies(), twoFactor()],
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
