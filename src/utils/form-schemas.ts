@@ -117,3 +117,9 @@ export const BackupCodeFormSchema = z.object({
     message: "Código é obrigatório",
   }),
 });
+
+export const passkeyFormSchema = z.object({
+  name: z.string().min(1, {
+    message: "Nome é obrigatório",
+  }),
+});

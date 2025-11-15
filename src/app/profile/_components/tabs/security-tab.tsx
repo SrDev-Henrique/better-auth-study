@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { auth } from "@/lib/auth/auth";
+import PasskeysManagement from "../passkey-management";
 import SetPasswordButton from "../set-password-button";
 import TwoFactorAuth from "../two-factor-auth";
 
@@ -19,18 +20,25 @@ export default async function SecurityTab({
   email: string;
   isTwoFactorEnabled: boolean;
 }) {
-  const accounts = await auth.api.listUserAccounts({
-    headers: await headers(),
-  });
+  const [passkeys, accounts] = await Promise.all([
+    auth.api.listPasskeys({
+      headers: await headers(),
+    }),
+    auth.api.listUserAccounts({
+      headers: await headers(),
+    }),
+  ]);
+
   const hasPasswordAccount = accounts.some(
     (account) => account.providerId === "credential",
   );
+
   return (
     <div className="space-y-6">
       {hasPasswordAccount ? (
         <Card>
           <CardHeader>
-            <CardTitle className="w-full max-w-md mx-auto">
+            <CardTitle className="w-full max-w-md mx-auto text-lg font-bold">
               Mudar senha
             </CardTitle>
             <CardDescription className="w-full max-w-md mx-auto">
@@ -62,7 +70,9 @@ export default async function SecurityTab({
       {hasPasswordAccount && (
         <Card>
           <CardHeader className="flex items-center justify-between gap-2 w-full max-w-md mx-auto px-0">
-            <CardTitle>Autenticação de dois fatores</CardTitle>
+            <CardTitle className="text-lg font-bold">
+              Autenticação de dois fatores
+            </CardTitle>
             <Badge variant={isTwoFactorEnabled ? "default" : "outline"}>
               {isTwoFactorEnabled ? "Ativado" : "Desativado"}
             </Badge>
@@ -72,6 +82,15 @@ export default async function SecurityTab({
           </CardContent>
         </Card>
       )}
+
+      <Card>
+        <CardHeader className="w-full max-w-md mx-auto px-0">
+          <CardTitle className="text-lg font-bold">Passkeys</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <PasskeysManagement passkeys={passkeys} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

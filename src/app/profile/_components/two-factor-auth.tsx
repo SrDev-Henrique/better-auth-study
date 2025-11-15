@@ -57,6 +57,7 @@ export default function TwoFactorAuth({ isEnabled }: { isEnabled: boolean }) {
         {
           onSuccess: (result) => {
             setTwoFactorData(result.data);
+            form.reset();
           },
           onError: (error) => {
             toast.custom((t) => (

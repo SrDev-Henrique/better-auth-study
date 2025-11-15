@@ -10,6 +10,7 @@ export default function AccountDeletion() {
   function handleAccountDeletion() {
     return authClient.deleteUser(
       {
+        
         callbackURL: "/",
       },
       {

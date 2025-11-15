@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import PasskeyButton from "@/app/profile/_components/passkey-button";
 import { authClient } from "@/lib/auth/auth-client";
 import { translateAuthError } from "@/lib/auth/auth-errors";
 import { signInFormSchema } from "@/utils/form-schemas";
@@ -63,65 +64,76 @@ export default function SignInForm({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input {...field} type="email" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem className="relative">
-              <div className="flex justify-between items-baseline">
-                <FormLabel>Senha</FormLabel>
+    <div className="space-y-4">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input
+                    autoComplete="email webauthn"
+                    {...field}
+                    type="email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem className="relative">
+                <div className="flex justify-between items-baseline">
+                  <FormLabel>Senha</FormLabel>
+                  <Button
+                    type="button"
+                    variant="link"
+                    onClick={openForgotPasswordTab}
+                    className="text-xs"
+                  >
+                    Esqueceu sua senha?
+                  </Button>
+                </div>
+                <FormControl>
+                  <Input
+                    autoComplete="current-password webauthn"
+                    {...field}
+                    type={showPassword ? "text" : "password"}
+                  />
+                </FormControl>
+                <FormMessage />
                 <Button
                   type="button"
-                  variant="link"
-                  onClick={openForgotPasswordTab}
-                  className="text-xs"
+                  className="absolute right-0 bottom-0"
+                  size="icon"
+                  onClick={() => setShowPassword(!showPassword)}
+                  variant="ghost"
                 >
-                  Esqueceu sua senha?
+                  {showPassword ? (
+                    <EyeIcon className="size-4" />
+                  ) : (
+                    <EyeClosedIcon className="size-4" />
+                  )}
                 </Button>
-              </div>
-              <FormControl>
-                <Input {...field} type={showPassword ? "text" : "password"} />
-              </FormControl>
-              <FormMessage />
-              <Button
-                type="button"
-                className="absolute right-0 bottom-0"
-                size="icon"
-                onClick={() => setShowPassword(!showPassword)}
-                variant="ghost"
-              >
-                {showPassword ? (
-                  <EyeIcon className="size-4" />
-                ) : (
-                  <EyeClosedIcon className="size-4" />
-                )}
-              </Button>
-            </FormItem>
-          )}
-        />
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <Loader2 className="size-4 animate-spin" />
-          ) : (
-            "Entrar"
-          )}
-        </Button>
-      </form>
-    </Form>
+              </FormItem>
+            )}
+          />
+          <Button type="submit" className="w-full" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <Loader2 className="size-4 animate-spin" />
+            ) : (
+              "Entrar"
+            )}
+          </Button>
+        </form>
+      </Form>
+      <PasskeyButton />
+    </div>
   );
 }
